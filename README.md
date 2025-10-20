@@ -19,6 +19,8 @@ I intentionally avoided using the Repository Pattern and Unit of Work Pattern be
 
 Additionally, I didn’t use AutoMapper or similar libraries because the project’s scale didn’t require it. Instead, I preferred to perform manual mapping, which kept the implementation straightforward and transparent. However, for scenarios involving more complex model to DTO or JSON mappings, I do recommend and use mapping solutions whether manual mapping or tools like AutoMapper, Mapster, and similar libraries depending on the project’s complexity and requirements.
 
+finally, I believe that the proper and timely use of patterns and design principles is what truly adds value to our work. They should be applied appropriately and in the right context, rather than being implemented unnecessarily and adding extra complexity. In this project, the structure I have created is scalable, flexible, and maintainable.
+
 # 2. If the project were implemented on a large scale, what changes would you make?
 
 If the project were implemented at a larger scale, I would focus on enhancing performance, scalability, and data consistency across the system.
