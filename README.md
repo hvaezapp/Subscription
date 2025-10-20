@@ -1,6 +1,8 @@
 # Subscription
 Subscription system based on Asp.net core 9 on VSA
 
+![Subscription Endpoints](subscription-scalar-doc.png)
+
 # 1. Why did you choose this structure and these technologies ?
 
 I implemented the web services using .NET 9 with a RESTful architecture. For better performance and simplicity, I used Minimal APIs, which demonstrated noticeably higher efficiency compared to the traditional controller-based approach. However, in enterprise-level applications, I still prefer using controllers for Web APIs because they offer better structure and flexibility for more complex scenarios.
@@ -36,4 +38,5 @@ To ensure scalability, the service can be deployed in multiple instances behind 
 # 4. In which areas have you used artificial intelligence (AI) for code generation or assistance?
 
 In general, I use AI tools in coding to handle routine tasks, such as writing common utility methods like date conversion. In this project, I specifically leveraged AI to write validation messages for DTOs, which helped improve efficiency and allowed me to focus on more complex or critical parts of the system.
+
 
