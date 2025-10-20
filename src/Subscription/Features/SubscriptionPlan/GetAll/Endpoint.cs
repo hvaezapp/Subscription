@@ -11,7 +11,7 @@ public class Endpoint : ICarterModule
         app
           .MapGroup(FeatureManager.Prefix)
           .WithTags(FeatureManager.EndpointTagName)
-          .MapGet("/",
+          .MapGet("/getAll",
           async (SubscriptionPlanService subscriptionPlanService, CancellationToken ct) =>
           {
               var subscriptionPlans = await subscriptionPlanService.GetAll(ct);

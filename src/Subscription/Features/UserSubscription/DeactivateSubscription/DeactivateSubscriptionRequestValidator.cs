@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Subscription.Common;
 
 namespace Subscription.Features.UserSubscription.DeactivateSubscription;
 
@@ -7,11 +8,12 @@ public class DeactivateSubscriptionRequestValidator : AbstractValidator<Deactiva
     public DeactivateSubscriptionRequestValidator()
     {
         RuleFor(x => x.UserId)
-           .NotEmpty()
-           .NotNull();
+           .NotEmpty().WithMessage(ValidationMessages.UserIdRequired)
+           .NotNull().WithMessage(ValidationMessages.UserIdCannotBeNull);
+
 
         RuleFor(x => x.SubscriptionPlanId)
-           .NotEmpty()
-           .NotNull();
+            .NotEmpty().WithMessage(ValidationMessages.SubscriptionPlanIdRequired)
+            .NotNull().WithMessage(ValidationMessages.SubscriptionPlanIdCannotBeNull);
     }
 }

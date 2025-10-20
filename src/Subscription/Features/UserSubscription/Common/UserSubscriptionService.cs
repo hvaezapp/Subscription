@@ -61,6 +61,7 @@ public class UserSubscriptionService(SubscriptionDbContext dbContext, Subscripti
                                 .Where(a => a.UserId == userId && a.IsActive)
                                 .Select(s => new GetUserSubscriptionResponse
                                 (
+                                     s.Id.ToString(),
                                      s.SubscriptionPlanId.ToString(),
                                      s.SubscriptionPlan.Name,
                                      s.SubscriptionPlan.Description,

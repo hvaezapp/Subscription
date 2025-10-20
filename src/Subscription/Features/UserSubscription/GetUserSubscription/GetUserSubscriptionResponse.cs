@@ -2,6 +2,7 @@
 
 public record GetUserSubscriptionResponse
 (
+    string UserSubscriptionId,
     string SubscriptionPlanId,
     string Name,
     string Description,

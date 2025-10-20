@@ -11,7 +11,7 @@ public class Endpoint : ICarterModule
     {
         app.MapGroup(FeatureManager.Prefix)
            .WithTags(FeatureManager.EndpointTagName)
-           .MapPost("/",
+           .MapPost("/create",
            async ([FromBody] CreateSubscriptionPlanRequest request, 
                   SubscriptionPlanService subscriptionPlanService,
                   CancellationToken ct) =>
