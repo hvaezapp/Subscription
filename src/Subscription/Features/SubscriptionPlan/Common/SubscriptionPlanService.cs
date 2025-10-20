@@ -12,12 +12,22 @@ public class SubscriptionPlanService(SubscriptionDbContext dbContext)
                                                       decimal price , int durationDays , 
                                                       CancellationToken ct)
     {
+        if (await SubscriptionPlanIsExistBasedDurationDays(durationDays, ct))
+            SubscriptionPlanExistBeforeException.Throw();
+
         var subscriptionPlan = SubscriptionPlan.Create(name, description, price , durationDays);
 
         _dbContext.SubscriptionPlans.Add(subscriptionPlan);
         await _dbContext.SaveChangesAsync(ct);
 
         return subscriptionPlan.Id;
+    }
+
+
+
+    public async Task<bool> SubscriptionPlanIsExistBasedDurationDays(int durationDays , CancellationToken ct)
+    {
+        return await _dbContext.SubscriptionPlans.AnyAsync(a => a.DurationDays == durationDays , ct);
     }
 
 
