@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Subscription.Features.SubscriptionPlan.GetAll;
 using Subscription.Infrastructure.Persistence.Context;
 
 namespace Subscription.Features.SubscriptionPlan.Common;
@@ -17,5 +18,20 @@ public class SubscriptionPlanService(SubscriptionDbContext dbContext)
         await _dbContext.SaveChangesAsync(ct);
 
         return subscriptionPlan.Id;
+    }
+
+
+    public async Task<IEnumerable<GetSubscriptionPlanResponse>> GetAll(CancellationToken ct)
+    {
+        return await _dbContext.SubscriptionPlans
+                               .Select(s => new GetSubscriptionPlanResponse
+                               (
+                                  s.Id.ToString(),
+                                  s.Name,
+                                  s.Description,
+                                  s.Price,
+                                  s.DurationDays
+
+                               )).ToListAsync(ct);
     }
 }
