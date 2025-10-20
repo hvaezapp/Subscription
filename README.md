@@ -33,3 +33,7 @@ To ensure scalability, the service can be deployed in multiple instances behind 
 
 15:40 PM - 21:20 PM => 5 Hours - 40 Min
 
+# 4. In which areas have you used artificial intelligence (AI) for code generation or assistance?
+
+In general, I use AI tools in coding to handle routine tasks, such as writing common utility methods like date conversion. In this project, I specifically leveraged AI to write validation messages for DTOs, which helped improve efficiency and allowed me to focus on more complex or critical parts of the system.
+
