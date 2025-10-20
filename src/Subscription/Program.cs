@@ -2,6 +2,7 @@ using Carter;
 using Scalar.AspNetCore;
 using ServiceCollector.Core;
 using Subscription.Configuration;
+using Subscription.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,8 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.MapScalarApiReference();
 }
+
+app.UseMiddleware<GlobalExceptionHandler>();
 
 app.MapCarter();
 
