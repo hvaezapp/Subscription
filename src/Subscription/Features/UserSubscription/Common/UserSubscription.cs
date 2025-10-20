@@ -25,5 +25,8 @@ public class UserSubscription
           IsActive = true
       };
 
-
+    internal void Deactive()
+    {
+        IsActive = false;
+    }
 }

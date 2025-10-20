@@ -2,10 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Subscription.Common.Extensions;
 using Subscription.Features.SubscriptionPlan.Common;
-using Subscription.Features.SubscriptionPlan.CreateSubscriptionPlan;
 using Subscription.Features.UserSubscription.Common;
 
-namespace Subscription.Features.UserSubscription.CreateSubscription;
+namespace Subscription.Features.UserSubscription.ActivateSubscription;
 
 public class Endpoint : ICarterModule
 {
@@ -14,17 +13,17 @@ public class Endpoint : ICarterModule
         app.MapGroup(FeatureManager.Prefix)
            .WithTags(FeatureManager.EndpointTagName)
            .MapPost("/activate",
-           async ([FromBody] CreateSubscriptionRequest request,
+           async ([FromBody] ActivateSubscriptionRequest request,
                   UserSubscriptionService userSubscriptionService,
                   CancellationToken ct) =>
            {
                var userId = UserId.Create(request.UserId);
                var subscriptionPlanId = SubscriptionPlanId.Create(request.SubscriptionPlanId);
 
-               var userSubscriptionId = await userSubscriptionService.Create(userId , subscriptionPlanId, ct);
+               await userSubscriptionService.Activate(userId, subscriptionPlanId, ct);
 
-               return Results.Ok(new CreateSubscriptionResponse(userSubscriptionId.ToString()));
+               return Results.Ok("Subscription successfully activated");
 
-           }).Validator<CreateSubscriptionRequest>();
+           }).Validator<ActivateSubscriptionRequest>();
     }
 }

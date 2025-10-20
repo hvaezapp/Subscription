@@ -9,7 +9,7 @@ public class UserSubscriptionService(SubscriptionDbContext dbContext, Subscripti
     public readonly SubscriptionPlanService _subscriptionPlanService = subscriptionPlanService;
     private readonly SubscriptionDbContext _dbContext = dbContext;
 
-    public async Task<UserSubscriptionId> Create(UserId userId, SubscriptionPlanId subscriptionPlanId, CancellationToken ct)
+    public async Task Activate(UserId userId, SubscriptionPlanId subscriptionPlanId, CancellationToken ct)
     {
         // solution 1 based on bussines
         await DeactiveAllUserSubscriptions(userId, ct);
@@ -28,7 +28,21 @@ public class UserSubscriptionService(SubscriptionDbContext dbContext, Subscripti
         _dbContext.UserSubscriptions.Add(newUserSubscription);
         await _dbContext.SaveChangesAsync(ct);
 
-        return newUserSubscription.Id;
+    }
+
+    public async Task Deactivate(UserId userId, SubscriptionPlanId subscriptionPlanId, CancellationToken ct)
+    {
+        var userSubscription = await _dbContext.UserSubscriptions
+                                               .FirstOrDefaultAsync(a => a.UserId == userId &&
+                                                a.SubscriptionPlanId == subscriptionPlanId && 
+                                                a.IsActive, ct);
+
+        if (userSubscription is null)
+            UserSubscriptionNotFoundException.Throw();
+
+
+        userSubscription.Deactive();
+        await _dbContext.SaveChangesAsync(ct);
     }
 
 
@@ -43,11 +57,12 @@ public class UserSubscriptionService(SubscriptionDbContext dbContext, Subscripti
     }
 
     // solution 2 based on bussines
-
+    #region 
     //private async Task<UserSubscription?> FindActiveSubscription(UserId userId, CancellationToken ct)
     //{
     //    return await _dbContext.UserSubscriptions
     //                           .Include(a => a.SubscriptionPlan)
     //                           .FirstOrDefaultAsync(a => a.UserId == userId && a.IsActive, ct);
     //}
+    #endregion
 }
