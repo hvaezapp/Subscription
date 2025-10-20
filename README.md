@@ -23,12 +23,13 @@ If the project were implemented at a larger scale, I would focus on enhancing pe
 
 For better read performance, especially when retrieving subscription lists, I would use caching mechanisms to minimize unnecessary database queries and improve response times. Depending on the scenario, I would also apply database indexing to optimize search and filtering operations on frequently queried fields.
 
-# 3. How much time did you spend completing the task?
-
-15:40 PM - 21:20 PM => 5 Hours - 40 Min
-
 Since this subscription service is designed to interact with payment and wallet services, we must pay special attention to concurrency management and idempotency to ensure data integrity and avoid issues such as duplicate transactions or inconsistent states during high traffic. These aspects are properly handled and enforced within the respective services to maintain reliable and consistent operations across the system.
 
 Additionally, if the subscription service needs to communicate with other services, it’s essential to carefully design inter-service communication and implement compensation (rollback) scenarios to maintain system resilience and fault tolerance in the event of partial failures or network disruptions.
 
 To ensure scalability, the service can be deployed in multiple instances behind a load balancer, distributing incoming requests evenly across instances. This setup allows the system to handle higher loads efficiently, maintain high availability, and deliver faster response times under heavy traffic.
+
+# 3. How much time did you spend completing the task?
+
+15:40 PM - 21:20 PM => 5 Hours - 40 Min
+
