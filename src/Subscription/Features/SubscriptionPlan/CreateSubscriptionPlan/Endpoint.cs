@@ -13,10 +13,10 @@ public class Endpoint : ICarterModule
            .WithTags(FeatureManager.EndpointTagName)
            .MapPost("/",
            async ([FromBody] CreateSubscriptionPlanRequest request, 
-                  SubscriptionPlanService service,
+                  SubscriptionPlanService subscriptionPlanService,
                   CancellationToken ct) =>
            {
-                var currencyId = await service.Create(request.Name, 
+                var currencyId = await subscriptionPlanService.Create(request.Name, 
                                                             request.Description, 
                                                             request.Price ,
                                                             request.DurationDays, ct);

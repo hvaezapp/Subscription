@@ -11,12 +11,16 @@ public class UserSubscriptionService(SubscriptionDbContext dbContext, Subscripti
 
     public async Task<UserSubscriptionId> Create(UserId userId, SubscriptionPlanId subscriptionPlanId, CancellationToken ct)
     {
-        // check user has active subscription
-        var activeSubscription = await FindActiveSubscription(userId, ct);
-        if (activeSubscription is not null)
-            UserHasActiveSubscriptionException.Throw(activeSubscription.SubscriptionPlanId, activeSubscription.SubscriptionPlan.Name);
+        // solution 1 based on bussines
+        await DeactiveAllUserSubscriptions(userId, ct);
 
-        // get current subscription info
+        // solution 2 based on bussines
+        #region
+        //var activeSubscription = await FindActiveSubscription(userId, ct);
+        //if (activeSubscription is not null)
+        //    UserHasActiveSubscriptionException.Throw(activeSubscription.SubscriptionPlanId, activeSubscription.SubscriptionPlan.Name);
+        #endregion
+
         var subscriptionPlan = await _subscriptionPlanService.GetById(subscriptionPlanId, ct);
 
         var newUserSubscription = UserSubscription.Create(userId, subscriptionPlanId, subscriptionPlan.DurationDays);
@@ -28,10 +32,22 @@ public class UserSubscriptionService(SubscriptionDbContext dbContext, Subscripti
     }
 
 
-    private async Task<UserSubscription?> FindActiveSubscription(UserId userId, CancellationToken ct)
+    // solution 1 based on bussines
+    private async Task DeactiveAllUserSubscriptions(UserId userId, CancellationToken ct)
     {
-        return await _dbContext.UserSubscriptions
-                               .Include(a => a.SubscriptionPlan)
-                               .FirstOrDefaultAsync(a => a.UserId == userId && a.IsActive, ct);
+        await _dbContext.UserSubscriptions
+                            .Where(sub => sub.IsActive && sub.UserId == userId)
+                            .ExecuteUpdateAsync(u => u
+                                 .SetProperty(sub => sub.IsActive, false)
+                            );
     }
+
+    // solution 2 based on bussines
+
+    //private async Task<UserSubscription?> FindActiveSubscription(UserId userId, CancellationToken ct)
+    //{
+    //    return await _dbContext.UserSubscriptions
+    //                           .Include(a => a.SubscriptionPlan)
+    //                           .FirstOrDefaultAsync(a => a.UserId == userId && a.IsActive, ct);
+    //}
 }

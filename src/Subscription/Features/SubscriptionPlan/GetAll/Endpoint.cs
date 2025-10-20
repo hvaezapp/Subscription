@@ -12,9 +12,9 @@ public class Endpoint : ICarterModule
           .MapGroup(FeatureManager.Prefix)
           .WithTags(FeatureManager.EndpointTagName)
           .MapGet("/",
-          async (SubscriptionPlanService service, CancellationToken ct) =>
+          async (SubscriptionPlanService subscriptionPlanService, CancellationToken ct) =>
           {
-              var subscriptionPlans = await service.GetAll(ct);
+              var subscriptionPlans = await subscriptionPlanService.GetAll(ct);
               return Results.Ok(subscriptionPlans);
           });
     }

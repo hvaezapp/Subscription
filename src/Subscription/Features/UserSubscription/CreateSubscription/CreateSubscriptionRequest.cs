@@ -1,4 +1,8 @@
 ﻿namespace Subscription.Features.UserSubscription.CreateSubscription;
 
-public record CreateSubscriptionRequest(string UserId , string SubscriptionId);
+public record CreateSubscriptionRequest
+(
+    Guid UserId,
+    Guid SubscriptionPlanId
+);
 
