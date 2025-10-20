@@ -23,7 +23,7 @@ Additionally, I didn’t use AutoMapper or similar libraries because the project
 
 If the project were implemented at a larger scale, I would focus on enhancing performance, scalability, and data consistency across the system.
 
-For better read performance, especially when retrieving subscription lists, I would use caching mechanisms to minimize unnecessary database queries and improve response times. Depending on the scenario, I would also apply database indexing to optimize search and filtering operations on frequently queried fields.
+For better read performance, especially when retrieving subscription lists, I would use caching mechanisms to minimize unnecessary database queries and improve response times. Depending on the scenario, I would also apply database indexing to optimize filtering operations on frequently queried fields.
 
 Since this subscription service is designed to interact with payment and wallet services, we must pay special attention to concurrency management and idempotency to ensure data integrity and avoid issues such as duplicate transactions or inconsistent states during high traffic. These aspects are properly handled and enforced within the respective services to maintain reliable and consistent operations across the system.
 
