@@ -16,3 +16,15 @@ Regarding the database, I chose Microsoft SQL Server as the relational database 
 I intentionally avoided using the Repository Pattern and Unit of Work Pattern because I wanted to keep the project simple. As you may know, these patterns are often considered anti-patterns in modern EF Core applications, since EF Core’s DbContext already provides similar functionality by managing the unit of work and repository responsibilities internally. While these patterns still have valid use cases for abstraction and adhering to the Dependency Inversion Principle (DIP), in this case, I found them unnecessary.
 
 Additionally, I didn’t use AutoMapper or similar libraries because the project’s scale didn’t require it. Instead, I preferred to perform manual mapping, which kept the implementation straightforward and transparent. However, for scenarios involving more complex model-to-DTO or JSON mappings, I do recommend and use mapping solutions—whether manual mapping or tools like AutoMapper, Mapster, and similar libraries—depending on the project’s complexity and requirements.
+
+# 2. If the project were implemented on a large scale, what changes would you make?
+
+If the project were implemented at a larger scale, I would focus on enhancing performance, scalability, and data consistency across the system.
+
+For better read performance, especially when retrieving subscription lists, I would use caching mechanisms to minimize unnecessary database queries and improve response times. Depending on the scenario, I would also apply database indexing to optimize search and filtering operations on frequently queried fields.
+
+Since this subscription service is designed to interact with payment and wallet services, we must pay special attention to concurrency management and idempotency to ensure data integrity and avoid issues such as duplicate transactions or inconsistent states during high traffic. These aspects are properly handled and enforced within the respective services to maintain reliable and consistent operations across the system.
+
+Additionally, if the subscription service needs to communicate with other services, it’s essential to carefully design inter-service communication and implement compensation (rollback) scenarios to maintain system resilience and fault tolerance in the event of partial failures or network disruptions.
+
+To ensure scalability, the service can be deployed in multiple instances behind a load balancer, distributing incoming requests evenly across instances. This setup allows the system to handle higher loads efficiently, maintain high availability, and deliver faster response times under heavy traffic.
