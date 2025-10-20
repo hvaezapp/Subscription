@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Subscription.Features.SubscriptionPlan.Common;
-using Subscription.Persistence.Context;
+using Subscription.Infrastructure.Persistence.Context;
 
 namespace Subscription.Features.UserSubscription.Common;
 

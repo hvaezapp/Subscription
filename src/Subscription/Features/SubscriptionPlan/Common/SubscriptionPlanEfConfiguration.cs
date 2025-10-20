@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Subscription.Persistence.Context;
+using Subscription.Infrastructure.Persistence.Context;
 
 namespace Subscription.Features.SubscriptionPlan.Common;
 
@@ -28,7 +28,7 @@ public class SubscriptionPlanEfConfiguration : IEntityTypeConfiguration<Subscrip
 
 
         builder.Property(x => x.Price)
-                    .IsRequired()
+                    .IsRequired(true)
                     .HasColumnType(SubscriptionDbContextSchema.DefaultDecimalColumnType);
 
 
