@@ -16,7 +16,7 @@ public class Endpoint : ICarterModule
                   SubscriptionPlanService service,
                   CancellationToken ct) =>
            {
-                var currencyId = await service.CreateAsync(request.Name, 
+                var currencyId = await service.Create(request.Name, 
                                                             request.Description, 
                                                             request.Price ,
                                                             request.DurationDays, ct);

@@ -8,28 +8,21 @@ public class SubscriptionPlanService(SubscriptionDbContext dbContext)
 {
     private readonly SubscriptionDbContext _dbContext = dbContext;
 
-    public async Task<SubscriptionPlanId> CreateAsync(string name , string description  , 
-                                                      decimal price , int durationDays , 
+    public async Task<SubscriptionPlanId> Create(string name, string description,
+                                                      decimal price, int durationDays,
                                                       CancellationToken ct)
     {
-        if (await SubscriptionPlanIsExistBasedDurationDays(durationDays, ct))
-            SubscriptionPlanExistBeforeException.Throw();
+        var subscriptionPlan = await FindSubscriptionPlanBasedDurationDays(durationDays , ct);
+        if (subscriptionPlan is not null)
+            SubscriptionPlanExistsBeforeException.Throw(subscriptionPlan.Name);
 
-        var subscriptionPlan = SubscriptionPlan.Create(name, description, price , durationDays);
+        var newSubscriptionPlan = SubscriptionPlan.Create(name, description, price, durationDays);
 
-        _dbContext.SubscriptionPlans.Add(subscriptionPlan);
+        _dbContext.SubscriptionPlans.Add(newSubscriptionPlan);
         await _dbContext.SaveChangesAsync(ct);
 
-        return subscriptionPlan.Id;
+        return newSubscriptionPlan.Id;
     }
-
-
-
-    public async Task<bool> SubscriptionPlanIsExistBasedDurationDays(int durationDays , CancellationToken ct)
-    {
-        return await _dbContext.SubscriptionPlans.AnyAsync(a => a.DurationDays == durationDays , ct);
-    }
-
 
     public async Task<IEnumerable<GetSubscriptionPlanResponse>> GetAll(CancellationToken ct)
     {
@@ -44,4 +37,21 @@ public class SubscriptionPlanService(SubscriptionDbContext dbContext)
 
                                )).ToListAsync(ct);
     }
+
+    public async Task<SubscriptionPlan> GetById(SubscriptionPlanId subscriptionPlanId, CancellationToken ct)
+    {
+        var subscriptionPlan =  await _dbContext.SubscriptionPlans.FirstOrDefaultAsync(s => s.Id == subscriptionPlanId, ct);
+        if (subscriptionPlan is null)
+        {
+            SubscriptionPlanNotFoundException.Throw(subscriptionPlanId);
+        }
+        return subscriptionPlan;
+    }
+
+
+    private async Task<SubscriptionPlan?> FindSubscriptionPlanBasedDurationDays(int durationDays, CancellationToken ct)
+    {
+        return await _dbContext.SubscriptionPlans.FirstOrDefaultAsync(a => a.DurationDays == durationDays, ct);
+    }
+
 }

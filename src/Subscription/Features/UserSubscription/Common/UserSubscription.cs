@@ -12,4 +12,18 @@ public class UserSubscription
     public DateTime EndDate { get; private set; }
     public bool IsActive { get; private set; }
 
+
+
+    public static UserSubscription Create(UserId userId, SubscriptionPlanId subscriptionPlanId, int durationDays)
+      => new()
+      {
+          Id = UserSubscriptionId.CreateUniqueId(),
+          UserId = userId,
+          SubscriptionPlanId = subscriptionPlanId,
+          StartDate = DateTime.Now,
+          EndDate = DateTime.Now.AddDays(durationDays),
+          IsActive = true
+      };
+
+
 }
