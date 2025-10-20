@@ -40,6 +40,10 @@ public class UserSubscriptionEfConfiguration : IEntityTypeConfiguration<UserSubs
                  .IsRequired(true);
 
 
+        builder.Property(x => x.CreatedAt)
+                .IsRequired(true);
+
+
         builder.Property(x => x.IsActive)
                  .IsRequired(true);
     }

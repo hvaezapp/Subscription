@@ -10,6 +10,7 @@ public class UserSubscription
     public SubscriptionPlan.Common.SubscriptionPlan SubscriptionPlan { get; private set; } = null!;
     public DateTime StartDate { get; private set; }
     public DateTime EndDate { get; private set; }
+    public DateTime CreatedAt { get; private set; }
     public bool IsActive { get; private set; }
 
 
@@ -22,6 +23,7 @@ public class UserSubscription
           SubscriptionPlanId = subscriptionPlanId,
           StartDate = DateTime.Now,
           EndDate = DateTime.Now.AddDays(durationDays),
+          CreatedAt = DateTime.Now,
           IsActive = true
       };
 
@@ -29,4 +31,10 @@ public class UserSubscription
     {
         IsActive = false;
     }
+
+    private UserSubscription()
+    {
+
+    }
+
 }

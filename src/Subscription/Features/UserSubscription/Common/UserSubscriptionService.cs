@@ -69,6 +69,7 @@ public class UserSubscriptionService(SubscriptionDbContext dbContext, Subscripti
                                      s.SubscriptionPlan.DurationDays,
                                      s.StartDate,
                                      s.EndDate,
+                                     s.CreatedAt,
                                      s.IsActive
 
                                 )).ToListAsync(ct);

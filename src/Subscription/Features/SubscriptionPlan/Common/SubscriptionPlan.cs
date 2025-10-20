@@ -19,4 +19,10 @@ public class SubscriptionPlan
            Price = price,
            DurationDays = durationDays
      };
+
+
+    private SubscriptionPlan()
+    {
+
+    }
 }

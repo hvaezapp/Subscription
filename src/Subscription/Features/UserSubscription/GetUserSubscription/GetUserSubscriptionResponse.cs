@@ -10,5 +10,6 @@ public record GetUserSubscriptionResponse
     int DurationDays,
     DateTime StartDate,
     DateTime EndDate,
+    DateTime CreatedAt,
     bool IsActive
 );
