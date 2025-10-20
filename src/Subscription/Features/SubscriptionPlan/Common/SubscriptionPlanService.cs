@@ -27,6 +27,7 @@ public class SubscriptionPlanService(SubscriptionDbContext dbContext)
     public async Task<IEnumerable<GetSubscriptionPlanResponse>> GetAll(CancellationToken ct)
     {
         return await _dbContext.SubscriptionPlans
+                               .AsNoTracking()
                                .Select(s => new GetSubscriptionPlanResponse
                                (
                                   s.Id.ToString(),

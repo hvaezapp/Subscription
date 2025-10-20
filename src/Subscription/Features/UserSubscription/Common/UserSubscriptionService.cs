@@ -57,6 +57,7 @@ public class UserSubscriptionService(SubscriptionDbContext dbContext, Subscripti
     {
 
         return await _dbContext.UserSubscriptions
+                                .AsNoTracking()
                                 .Include(s => s.SubscriptionPlan)
                                 .Where(a => a.UserId == userId && a.IsActive)
                                 .Select(s => new GetUserSubscriptionResponse
