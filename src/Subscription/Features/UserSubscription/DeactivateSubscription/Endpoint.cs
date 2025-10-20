@@ -12,7 +12,7 @@ public class Endpoint : ICarterModule
     {
         app.MapGroup(FeatureManager.Prefix)
                   .WithTags(FeatureManager.EndpointTagName)
-                  .MapPost("/deactivate",
+                  .MapPut("/deactivate",
                   async ([FromBody] DeactivateSubscriptionRequest request,
                          UserSubscriptionService userSubscriptionService,
                          CancellationToken ct) =>

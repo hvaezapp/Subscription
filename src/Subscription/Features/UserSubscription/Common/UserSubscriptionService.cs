@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Subscription.Features.SubscriptionPlan.Common;
+using Subscription.Features.SubscriptionPlan.GetAll;
+using Subscription.Features.UserSubscription.GetUserSubscription;
 using Subscription.Infrastructure.Persistence.Context;
 
 namespace Subscription.Features.UserSubscription.Common;
@@ -11,8 +13,12 @@ public class UserSubscriptionService(SubscriptionDbContext dbContext, Subscripti
 
     public async Task Activate(UserId userId, SubscriptionPlanId subscriptionPlanId, CancellationToken ct)
     {
+        // Check whether the user exists, assuming the UserId comes from user input
+
+
         // solution 1 based on bussines
         await DeactiveAllUserSubscriptions(userId, ct);
+
 
         // solution 2 based on bussines
         #region
@@ -20,6 +26,7 @@ public class UserSubscriptionService(SubscriptionDbContext dbContext, Subscripti
         //if (activeSubscription is not null)
         //    UserHasActiveSubscriptionException.Throw(activeSubscription.SubscriptionPlanId, activeSubscription.SubscriptionPlan.Name);
         #endregion
+
 
         var subscriptionPlan = await _subscriptionPlanService.GetById(subscriptionPlanId, ct);
 
@@ -34,7 +41,7 @@ public class UserSubscriptionService(SubscriptionDbContext dbContext, Subscripti
     {
         var userSubscription = await _dbContext.UserSubscriptions
                                                .FirstOrDefaultAsync(a => a.UserId == userId &&
-                                                a.SubscriptionPlanId == subscriptionPlanId && 
+                                                a.SubscriptionPlanId == subscriptionPlanId &&
                                                 a.IsActive, ct);
 
         if (userSubscription is null)
@@ -43,6 +50,27 @@ public class UserSubscriptionService(SubscriptionDbContext dbContext, Subscripti
 
         userSubscription.Deactive();
         await _dbContext.SaveChangesAsync(ct);
+    }
+
+
+    public async Task<IEnumerable<GetUserSubscriptionResponse>> GetActiveUserSubscriptionsByUserId(UserId userId, CancellationToken ct)
+    {
+
+        return await _dbContext.UserSubscriptions
+                                .Include(s => s.SubscriptionPlan)
+                                .Where(a => a.UserId == userId && a.IsActive)
+                                .Select(s => new GetUserSubscriptionResponse
+                                (
+                                     s.SubscriptionPlanId.ToString(),
+                                     s.SubscriptionPlan.Name,
+                                     s.SubscriptionPlan.Description,
+                                     s.SubscriptionPlan.Price,
+                                     s.SubscriptionPlan.DurationDays,
+                                     s.StartDate,
+                                     s.EndDate,
+                                     s.IsActive
+
+                                )).ToListAsync(ct);
     }
 
 
