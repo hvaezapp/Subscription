@@ -16,12 +16,12 @@ public class Endpoint : ICarterModule
                   SubscriptionPlanService subscriptionPlanService,
                   CancellationToken ct) =>
            {
-                var currencyId = await subscriptionPlanService.Create(request.Name, 
+                var subscriptionPlanId = await subscriptionPlanService.Create(request.Name, 
                                                             request.Description, 
                                                             request.Price ,
                                                             request.DurationDays, ct);
 
-                return Results.Ok(new CreateSubscriptionPlanResponse(currencyId.ToString()));
+                return Results.Ok(new CreateSubscriptionPlanResponse(subscriptionPlanId.ToString()));
 
            }).Validator<CreateSubscriptionPlanRequest>();
     }

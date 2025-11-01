@@ -24,9 +24,10 @@ public class SubscriptionPlanService(SubscriptionDbContext dbContext)
         return newSubscriptionPlan.Id;
     }
 
-    public async Task<IEnumerable<GetSubscriptionPlanResponse>> GetAll(CancellationToken ct)
+   
+    public Task<List<GetSubscriptionPlanResponse>> GetAll(CancellationToken ct)
     {
-        return await _dbContext.SubscriptionPlans
+        return  _dbContext.SubscriptionPlans
                                .AsNoTracking()
                                .Select(s => new GetSubscriptionPlanResponse
                                (
@@ -50,9 +51,9 @@ public class SubscriptionPlanService(SubscriptionDbContext dbContext)
     }
 
 
-    private async Task<SubscriptionPlan?> FindSubscriptionPlanBasedDurationDays(int durationDays, CancellationToken ct)
+    private Task<SubscriptionPlan?> FindSubscriptionPlanBasedDurationDays(int durationDays, CancellationToken ct)
     {
-        return await _dbContext.SubscriptionPlans.FirstOrDefaultAsync(a => a.DurationDays == durationDays, ct);
+        return _dbContext.SubscriptionPlans.FirstOrDefaultAsync(a => a.DurationDays == durationDays, ct);
     }
 
 }
